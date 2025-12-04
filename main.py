@@ -85,7 +85,7 @@ def main():
 
     # Message Routing
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_router))
-    application.add_handler(MessageHandler(filters.TEXT, owner_reply_router))
+    application.add_handler(MessageHandler(filters.REPLY & filters.TEXT, owner_reply_router))
 
     application.run_polling()
 
