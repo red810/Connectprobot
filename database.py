@@ -16,10 +16,30 @@ logger = logging.getLogger(__name__)
 pool: Optional[asyncpg.Pool] = None
 
 
+def normalize_database_url(url: str) -> str:
+    """Normalize DATABASE_URL for asyncpg compatibility.
+    
+    Railway and some services use 'postgresql+asyncpg://' scheme,
+    but asyncpg expects 'postgresql://' or 'postgres://'
+    """
+    if not url:
+        return url
+    # Remove +asyncpg, +psycopg2, etc. from the scheme
+    # Also handle postgres:// variant
+    if '+' in url.split('://')[0]:
+        scheme_part = url.split('://')[0]
+        rest = url.split('://', 1)[1]
+        base_scheme = scheme_part.split('+')[0]
+        return f"{base_scheme}://{rest}"
+    return url
+
+
 async def init_db() -> None:
     """Initialize database connection pool and create tables."""
     global pool
-    pool = await asyncpg.create_pool(DATABASE_URL, min_size=2, max_size=10)
+    db_url = normalize_database_url(DATABASE_URL)
+    logger.info(f"Connecting to database...")
+    pool = await asyncpg.create_pool(db_url, min_size=2, max_size=10)
     
     async with pool.acquire() as conn:
         # Create users table
