@@ -1,5 +1,5 @@
-pydantic==1.10.9
-python-telegram-bot==20.6
-SQLAlchemy==2.0.15
+python-telegram-bot[job-queue]==21.0
 asyncpg==0.29.0
 python-dotenv==1.0.0
+APScheduler==3.10.4
+aiohttp==3.9.1

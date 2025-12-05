@@ -1,25 +1,36 @@
 """
-config.py
-Loads .env variables and exposes structured settings object.
+Configuration settings for ConnectProBot
 """
 
-from pydantic import BaseSettings
-from typing import List
 import os
+from dotenv import load_dotenv
 
-class Settings(BaseSettings):
-    BOT_TOKEN: str
-    ADMIN_IDS: List[int]
-    DATABASE_URL: str
+load_dotenv()
 
-    TRIAL_MONTHS: int = 4   # default 4 months
-    AUTO_PAY_ENABLE: bool = True
+# Bot Configuration
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+BOT_USERNAME = "@connectsprobot"
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+# Admin Configuration
+ADMIN_IDS = [int(id.strip()) for id in os.getenv("ADMIN_IDS", "5402727692").split(",")]
 
-# Instantiate
-settings = Settings()
+# Database Configuration
+DATABASE_URL = os.getenv("DATABASE_URL", "")
 
-print("Admin IDs loaded:", settings.ADMIN_IDS)
+# Feature Limits
+FREE_MODE_MESSAGE_LIMIT = 2  # Messages per user per day
+FREE_MODE_START_HOUR = 9  # 9:00 AM
+FREE_MODE_END_HOUR = 23  # 11:50 PM (23:50)
+FREE_MODE_END_MINUTE = 50
+
+# Trial Configuration
+TRIAL_DAYS = 120  # 4 months
+
+# Cleanup Configuration
+MESSAGE_RETENTION_DAYS = 72  # Delete messages after 72 days
+
+# Categories
+CATEGORIES = ["Tech", "Education", "E-commerce", "Other"]
+
+# Templates
+FOOTER_TEXT = "This Bot was made using @Connectsprobot"
