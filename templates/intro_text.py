@@ -1,4 +1,4 @@
-/"""
+"""
 Intro message template for ConnectProBot
 """
 
@@ -43,7 +43,7 @@ Thank you for using ConnectProBot!
 
 FREE_MODE_LIMITS = """📋 **Free Mode Limits:**
 
-• 5 messages per user per day
+• 2 messages per user per day
 • Active hours: 9:00 AM – 11:50 PM
 • Basic message filtering
 
